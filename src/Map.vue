@@ -1,6 +1,6 @@
 <template>
   <div id="map"></div>
-  <audio ref="player"></audio>
+  <audio ref="player" controls></audio>
 </template>
 
 <script>
@@ -9,7 +9,7 @@ import "leaflet/dist/leaflet.css";
 import { capitals } from "./capitals.js";
 
 export default {
-  mounted() {
+  async mounted() {
     const map = L.map("map", {
       minZoom: 2,
       maxZoom: 18
@@ -26,22 +26,52 @@ export default {
       player.play();
     }
 
-    // --- Add marker for every capital city ---
-    capitals.forEach(cap => {
-      L.marker([cap.lat, cap.lon])
-        .addTo(map)
-        .bindPopup(`${cap.city}, ${cap.country}`)
-        .on("click", () => {
-          playAudio(cap.city.toLowerCase().replace(/[^a-z0-9]/g, "_"));
-        });
-    });
+    // Helper to check if audio exists
+    async function audioExists(name) {
+      try {
+        const response = await fetch(`/audio/${name}.mp3`, { method: "HEAD" });
+        return response.ok;
+      } catch (err) {
+        return false;
+      }
+    }
+
+    // Filter capitals with available audio
+    const capitalsWithAudio = await Promise.all(
+      capitals.map(async cap => {
+        const audioName = cap.city.toLowerCase().replace(/[^a-z0-9]/g, "_");
+        if (await audioExists(audioName)) {
+          return { ...cap, audioName };
+        }
+        return null;
+      })
+    );
+
+    // Add markers only for cities with audio
+    capitalsWithAudio
+      .filter(cap => cap !== null)
+      .forEach(cap => {
+        L.marker([cap.lat, cap.lon])
+          .addTo(map)
+          .bindPopup(`${cap.city}, ${cap.country}`)
+          .on("click", () => playAudio(cap.audioName));
+      });
   }
 };
 </script>
 
 <style>
 #map {
-  height: 100vh;
+  height: calc(100vh - 40px); /* Leave space for the audio player */
   width: 100vw;
+}
+
+audio {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: #f8f8f8;
 }
 </style>
