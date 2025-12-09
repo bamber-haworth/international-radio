@@ -87,7 +87,6 @@ export const capitals = [
   { country: "Iran", city: "Tehran", lat: 35.6892, lon: 51.3890 },
   { country: "Iraq", city: "Baghdad", lat: 33.3152, lon: 44.3661 },
   { country: "Ireland", city: "Dublin", lat: 53.3498, lon: -6.2603 },
-  { country: "Israel", city: "Jerusalem", lat: 31.7683, lon: 35.2137 },
   { country: "Italy", city: "Rome", lat: 41.9028, lon: 12.4964 },
 
   { country: "Jamaica", city: "Kingston", lat: 17.9714, lon: -76.7936 },
@@ -205,7 +204,7 @@ export const capitals = [
   { country: "Ukraine", city: "Kyiv", lat: 50.4501, lon: 30.5234 },
   { country: "United Arab Emirates", city: "Abu Dhabi", lat: 24.4539, lon: 54.3773 },
   { country: "United Kingdom", city: "London", lat: 51.5074, lon: -0.1278 },
-  { country: "United States", city: "Washington, D.C.", lat: 38.9072, lon: -77.0369 },
+  { country: "United States", city: "Washington, DC", lat: 38.9072, lon: -77.0369 },
   { country: "Uruguay", city: "Montevideo", lat: -34.9011, lon: -56.1645 },
   { country: "Uzbekistan", city: "Tashkent", lat: 41.2995, lon: 69.2401 },
 
