@@ -39,7 +39,7 @@ export default {
     // Filter capitals with available audio
     const capitalsWithAudio = await Promise.all(
       capitals.map(async cap => {
-        const audioName = cap.city.toLowerCase().replace(/[^a-z0-9]/g, "_");
+        const audioName = cap.city.toLowerCase().replace(/\s+/g, "__").replace(/[^a-z0-9_]/g, "");
         if (await audioExists(audioName)) {
           return { ...cap, audioName };
         }
